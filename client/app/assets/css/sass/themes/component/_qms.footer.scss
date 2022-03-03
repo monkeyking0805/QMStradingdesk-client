@@ -1,0 +1,13 @@
+footer {
+  height: 50px;
+  background-color: white;
+  position: fixed;
+  bottom: 0px;
+  width: 100%;
+  box-shadow: 0 1px 15px rgba(0,0,0,0.04), 0 1px 6px rgba(0,0,0,0.04);
+  p {
+    margin-top: 15px;
+    margin-left: 140px;
+    font-size: 0.75rem;
+  }
+}

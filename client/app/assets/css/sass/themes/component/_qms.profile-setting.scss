@@ -1,0 +1,30 @@
+.profile {
+  padding: 30px;
+
+  .profile-picture {
+    img {
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+      width: 150px;
+    }
+    i {
+      position: absolute;
+      right: 30%;
+      top: 160px;
+    }
+  }
+  .profile-name {
+    margin-top: 30px;
+    text-align: center;
+  }
+
+  .profile-title {
+    font-size: 1rem;
+    margin-bottom: 30px;
+  }
+}
+
+.profile-card-picture-setting {
+  height: 100%;
+}

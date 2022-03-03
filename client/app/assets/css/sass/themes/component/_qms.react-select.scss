@@ -1,0 +1,72 @@
+//React Select Overide
+.react-select {
+  .react-select__menu {
+    margin-top: 5px !important;
+    border-radius: 5px !important;
+    border: 1px solid $select-border-color !important;
+  }
+  .react-select__menu-list {
+    padding-top: 4px;
+    padding-bottom: 4px;
+    .react-select__option {
+      position: relative;
+      .option-label {
+        margin-bottom: 0px !important;
+      }
+      .close-button {
+        fill: $qms-font-color-2;
+        position: absolute;
+        right: 0.75rem;
+        top: 50%;
+        transform: translate(0, -50%);
+      }
+      &:hover, &active {
+        background: $qms-theme-color-light-blue !important;
+        color: $qms-theme-color-blue !important;
+      }
+    }
+  }
+
+  .react-select__control {
+    border-radius: 5px !important;
+    .react-select__value-container {
+      border-radius: 5px;
+      .react-select__placeholder:nth-child(n+2) {
+        display: none;
+      }
+    }
+  }
+
+  &.is-selected {
+    .react-select__indicator {
+      svg {
+        fill: white;
+      }
+    }
+    .react-select__placeholder {
+      color: white;
+    }
+    .react-select__control {
+      background-color: $qms-theme-color-blue-2 !important;
+    }
+    .react-select__value-container--has-value {
+      background-color: $qms-theme-color-blue-2 !important;
+    }
+  }
+}
+.react-select__control--is-focused {
+  border: 2px solid $select-border-color !important;
+  margin: -1px;
+  &.react-select__control--menu-is-open {
+    border-color: $qms-theme-color-blue !important;
+    svg {
+      transform: rotate(180deg);
+      transition: transform 150ms ease;
+    }
+  }
+}
+
+.react-select__option--is-selected {
+  background: #fff !important;
+  color: #303030 !important;
+}

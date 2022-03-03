@@ -1,0 +1,18 @@
+div[class*="css"]:not([class*="react-select"]) {
+  z-index: 9999;
+}
+
+div[class*="ToastElement"] { 
+  background-color: white; 
+  color: $qms-font-color-1;
+  div {
+    div {
+      &:first-child {
+        display: none;
+      }
+    }
+    svg {
+      fill: white !important;
+    }
+  }
+}

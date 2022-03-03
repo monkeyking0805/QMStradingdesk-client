@@ -1,0 +1,53 @@
+.pagination {
+  .page-item {
+    &.active {
+      .page-link {
+        border: 1px solid $qms-theme-color-blue;
+        color: $qms-font-color-1;
+        z-index: 0;
+      }
+    }
+    &.disabled {
+      .page-link {
+        border-color: #e0e0e0 !important;
+        color: #e0e0e0 !important;
+        &.prev {
+          background: transparent;
+          border-color: #e0e0e0 !important;
+        }
+        &.next {
+          background: transparent;
+          border-color: #e0e0e0 !important;
+        }
+      }
+    }
+    .page-link {
+      &:hover {
+        border-color: $qms-theme-color-blue;
+      }
+      &.prev {
+        background: $qms-theme-color-blue;
+        border: 1px solid $qms-theme-color-blue;
+      }
+      &.next {
+        background: $qms-theme-color-blue;
+        border: 1px solid $qms-theme-color-blue;
+      }
+      &.first {
+        color: $qms-font-color-1;
+        border: 1px solid $qms-theme-color-blue;
+        &:hover {
+          background: transparent;
+        }
+      }
+      &.last {
+        color: $qms-font-color-1;
+        border: 1px solid $qms-theme-color-blue;
+        &:hover {
+          background: transparent;
+        }
+      }
+      border-radius: 0px !important;
+    }
+  }
+}

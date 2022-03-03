@@ -1,0 +1,100 @@
+variables:
+    PROJECT: td-client
+    REGION: ap-southeast-2
+    IMAGE: $CI_REGISTRY_IMAGE/$CI_COMMIT_REF_NAME:$CI_PIPELINE_ID
+
+stages:
+    - build
+    - deploy
+
+Build/Test:
+    stage: build
+    image: registry.gitlab.com/gomeeki/devops/ci-tools:docker
+    script:
+        - sh /root/npm_build_test.sh
+    except:
+        - master
+        - /^release-.*$/
+        - develop
+        - tags
+
+.Build/Test/Push: &build_test_push
+    stage: build
+    image: registry.gitlab.com/gomeeki/devops/ci-tools:docker
+    script:
+        - docker build --build-arg CLIENT_URI=$CLIENT_URI --build-arg LOG_ROCKET=$LOG_ROCKET  --no-cache --pull -t $IMAGE .
+        - docker run -e CLIENT_URI=$CLIENT_URI -e LOG_ROCKET=$LOG_ROCKET $IMAGE npm run test || exit
+        - echo $CI_REGISTRY_PASSWORD | docker login registry.gitlab.com -u $CI_REGISTRY_USER --password-stdin
+        - docker push $IMAGE
+
+build_test_push_for_staging:
+    <<: *build_test_push
+    variables:
+        CLIENT_URI: https://tradingdesk-staging.gomeekisystems.com
+        LOG_ROCKET: 0asuc5/qms-trading-desk-staging
+    only:
+        - develop
+
+build_test_push_for_uat:
+    <<: *build_test_push
+    variables:
+        CLIENT_URI: https://tradingdesk-uat.gomeekisystems.com
+        LOG_ROCKET: 0asuc5/ams-trading-desk-uat
+    only:
+        - /^release-.*$/
+
+build_test_push_for_prod:
+    <<: *build_test_push
+    variables:
+        CLIENT_URI: https://tradingdesk-production.gomeekisystems.com
+        LOG_ROCKET: 0asuc5/qms-trading-desk-production
+        IMAGE: $CI_REGISTRY_IMAGE/$CI_COMMIT_REF_NAME:$CI_COMMIT_TAG
+    only:
+        - tags
+
+deploy-production:
+    stage: deploy
+    image: registry.gitlab.com/gomeeki/devops/ci-tools:awscli
+    script:
+        - sh /root/ecs_deploy.sh
+    environment:
+        name: production
+    variables:
+        IMAGE: $CI_REGISTRY_IMAGE/$CI_COMMIT_REF_NAME:$CI_COMMIT_TAG
+        GIT_STRATEGY: none
+        CLUSTER: qms-td-production
+        AWS_ACCESS_KEY_ID: $PROD_AWS_ACCESS_KEY_ID
+        AWS_SECRET_ACCESS_KEY: $PROD_AWS_SECRET_ACCESS_KEY
+    only:
+        - tags
+
+deploy-uat:
+    stage: deploy
+    image: registry.gitlab.com/gomeeki/devops/ci-tools:awscli
+    script:
+        - sh /root/ecs_deploy.sh
+    environment:
+        name: uat
+    variables:
+        GIT_STRATEGY: none
+        CLUSTER: TD-UAT
+        AWS_ACCESS_KEY_ID: $UAT_TD_AWS_ACCESS_KEY_ID
+        AWS_SECRET_ACCESS_KEY: $UAT_TD_AWS_SECRET_ACCESS_KEY
+    only:
+        - /^release-.*$/
+    
+deploy-staging:
+    stage: deploy
+    image: registry.gitlab.com/gomeeki/devops/ci-tools:awscli
+    script:
+        - sh /root/ecs_deploy.sh
+    environment:
+        name: staging
+    variables:
+        REGION: us-west-2
+        GIT_STRATEGY: none
+        CLUSTER: gomeeki-staging
+        AWS_ACCESS_KEY_ID: $STAGING_AWS_ACCESS_KEY_ID
+        AWS_SECRET_ACCESS_KEY: $STAGING_AWS_SECRET_ACCESS_KEY
+    only: 
+        - develop

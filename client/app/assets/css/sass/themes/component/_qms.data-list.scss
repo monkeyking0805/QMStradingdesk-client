@@ -1,0 +1,98 @@
+.data-list {
+  .with-filter {
+    &:hover {
+      cursor: pointer;
+    }
+  }
+  .card {
+    border-left: 4px solid $qms-theme-color-blue;
+    margin-top: 5px;
+
+    .list-row {
+      padding: 1.5rem;
+    }
+  }
+
+  &.compact {
+    .list-row {
+      padding: 1rem;
+    }
+  }
+
+  .list-header {
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+    border-top: 1px solid $seperator-color;
+    border-bottom: 1px solid $seperator-color;
+    .list-column {
+      font-weight: 600;
+    }
+  }
+
+  .list-column {
+    i {
+      color: $qms-font-color-2;
+      &:last-child {
+        padding-left: 13px;
+      }
+
+      &:hover {
+        cursor: pointer;
+      }
+    }
+  }
+
+  .list-item-heading {
+    a {
+      font-size: 14px;
+      color: $qms-theme-color-blue;
+    }
+  }
+  
+  p {
+    font-size: 14px;
+    color: $qms-font-color-1;
+    white-space: pre-line;
+  }
+
+  .data-validation {
+    p {
+      display: inline;
+      &.error {
+        color: red;
+      }
+
+      i {
+        color: orange;
+        padding-left: 0px !important;
+      }
+    }
+  }
+
+  .status-badge {
+    font-size: 0.7rem;
+  }
+}
+
+.data-filter {
+  .display-list {
+    position: relative;
+    padding-top: 0.75rem;
+    float: right;
+    margin-right: 15px;
+  }
+  .display-list-dropdown {
+    width: 100px; 
+    float: right;
+  }
+}
+
+.row-error {
+  border-left-color: red !important;
+}
+
+.row-warning {
+  border-left-color: orange !important;
+}
